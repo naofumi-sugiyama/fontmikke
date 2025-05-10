@@ -53,11 +53,11 @@
 
 - **バックエンド**：
     - Ruby 3.2.4
-    - Ruby on Rails 6.1.7（Webpacker 統合）
+    - Ruby on Rails 7.1.3
     - 認証：Devise
     - 画像管理：Active Storage
 - **フロントエンド**：
-    - React（Webpacker による統合）
+    - React（jsbundling-rails + esbuild による統合）
     - Tailwind CSS
 - **データベース**：
     - 開発環境：SQLite（予定）
