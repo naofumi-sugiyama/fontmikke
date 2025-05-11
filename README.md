@@ -51,14 +51,11 @@
 
 ## ■　技術スタック
 
-- **バックエンド**：
+- **バックエンド/フロントエンド**：
     - Ruby 3.2.4
     - Ruby on Rails 7.1.3
+    - スタイリング：Tailwind CSS
     - 認証：Devise
-    - 画像管理：Active Storage
-- **フロントエンド**：
-    - React（jsbundling-rails + esbuild による統合）
-    - Tailwind CSS
 - **データベース**：
     - 開発環境：SQLite（予定）
     - 本番環境：PostgreSQL
