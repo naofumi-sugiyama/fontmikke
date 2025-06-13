@@ -137,6 +137,8 @@ GEM
     nokogiri (1.18.8)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
+    nokogiri (1.18.8-x86_64-darwin)
+      racc (~> 1.4)
     pg (1.5.9)
     pp (0.6.2)
       prettyprint
@@ -206,8 +208,8 @@ GEM
     tailwindcss-rails (4.2.3)
       railties (>= 7.0.0)
       tailwindcss-ruby (~> 4.0)
+    tailwindcss-ruby (4.1.8)
     tailwindcss-ruby (4.1.8-x86_64-darwin)
-    tailwindcss-ruby (4.1.8-x86_64-linux-gnu)
     thor (1.3.2)
     timeout (0.4.3)
     turbo-rails (2.0.12)
@@ -234,8 +236,8 @@ GEM
     zeitwerk (2.6.18)
 
 PLATFORMS
+  ruby
   x86_64-darwin-21
-  x86_64-linux
 
 DEPENDENCIES
   bootsnap
