@@ -25,9 +25,6 @@ gem "turbo-rails"
 gem "stimulus-rails"
 
 # Tailwind CSS integration
-gem "tailwindcss-ruby"
-
-# Tailwind CSS integration
 gem "tailwindcss-rails"
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
