@@ -30,9 +30,9 @@ services: # コンテナの定義開始
     tty: true # 疑似ターミナルを割り当て
     stdin_open: true # 標準入力を保持
     volumes:  # ボリュームマウントの設定
-      - .:/myapp # ソースコードのマウント
+      - .:/app # ソースコードのマウント
       - bundle_data:/usr/local/bundle:cached # gemの永続化
-      - node_modules:/myapp/node_modules # node_modulesの永続化
+      - node_modules:/app/node_modules # node_modulesの永続化
     environment: # 環境変数の設定
       TZ: Asia/Tokyo # タイムゾーンを日本に設定
     ports: # ポート設定

@@ -2,7 +2,7 @@
 FROM ruby:3.1.2
 
 # 作業ディレクトリを作成
-WORKDIR /myapp
+WORKDIR /app
 
 # Gemfile だけを先にコピーして bundle install（キャッシュ活用）
 COPY Gemfile Gemfile.lock ./
