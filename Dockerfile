@@ -11,8 +11,5 @@ RUN bundle install --without development test
 # アプリケーションの全コードをコピー
 COPY . .
 
-# 静的ファイルをプリコンパイル（Importmap 用）
-RUN RAILS_ENV=production bundle exec rails assets:precompile
-
 # Puma を起動
 CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
