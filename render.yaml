@@ -11,6 +11,8 @@ services:
         sync: false
       - key: RAILS_ENV
         value: production
+      - key: RAILS_LOG_TO_STDOUT
+        value: enabled
       - key: DATABASE_URL
         fromDatabase:
           name: fontmikke-db
