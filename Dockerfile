@@ -1,17 +1,8 @@
 # syntax=docker/dockerfile:1
 FROM ruby:3.1.2
 
-# Linux環境でも source install にする
-ENV BUNDLE_FORCE_RUBY_PLATFORM=true
-
 # 必要なパッケージをインストール
 RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
-
-# Tailwind CSS の Linux バイナリをインストール
-RUN curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-x64 \
-    && mv tailwindcss-linux-x64 tailwindcss \
-    && chmod +x tailwindcss \
-    && mv tailwindcss /usr/local/bin/
 
 # 作業ディレクトリの設定
 WORKDIR /myapp
