@@ -32,4 +32,5 @@ ENTRYPOINT ["entrypoint.sh"]
 EXPOSE 3000
 
 # メインプロセスの設定
-CMD bash -c 'bin/rails server -b 0.0.0.0 -p ${PORT:-3000}'
+CMD bash -c 'echo "PORT is $PORT"; bin/rails server -b 0.0.0.0 -p ${PORT:-3000}'
+
