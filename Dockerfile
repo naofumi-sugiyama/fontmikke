@@ -1,8 +1,16 @@
 # syntax=docker/dockerfile:1
 FROM ruby:3.1.2
 
-# 必要なパッケージをインストール
-RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
+# Node.js + npm + Yarn をインストール
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+  && apt-get update -qq \
+  && apt-get install -y nodejs postgresql-client \
+  && npm install -g yarn
+
+# Tailwind CSS CLI (Linux x64) をインストール
+RUN curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-x64 \
+  && chmod +x tailwindcss-linux-x64 \
+  && mv tailwindcss-linux-x64 /usr/local/bin/tailwindcss
 
 # 作業ディレクトリの設定
 WORKDIR /myapp
