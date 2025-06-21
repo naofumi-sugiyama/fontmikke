@@ -32,4 +32,4 @@ ENTRYPOINT ["entrypoint.sh"]
 EXPOSE 3000
 
 # メインプロセスの設定
-CMD ["bin/rails", "server", "-b", "0.0.0.0"]
+CMD ["bin/rails", "server", "-b", "0.0.0.0", "-p", "${PORT}"]
