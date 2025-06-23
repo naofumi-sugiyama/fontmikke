@@ -1,12 +1,22 @@
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 module.exports = {
-    content: [
-      './app/views/**/*.{html,erb}',
-      './app/helpers/**/*.rb',
-      './app/javascript/**/*.js',
-      './app/assets/stylesheets/**/*.css'
-    ],
-    theme: {
-      extend: {},
+  darkMode: 'media',
+  content: [
+    './app/helpers/**/*.rb',
+    './app/javascript/**/*.js',
+    './app/views/**/*'
+  ],  
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+      },
     },
-    plugins: [],
-  }
+  },
+  plugins: [
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/aspect-ratio'),
+    require('@tailwindcss/typography'),
+  ]
+}
