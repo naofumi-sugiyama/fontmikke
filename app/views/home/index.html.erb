@@ -1,5 +1,43 @@
-<div class="w-full flex justify-center mt-20">
-  <h1 class="text-3xl font-bold text-blue-600">
-    ふぉんとみっけ
-  </h1>
-</div>
+<main class="container mx-auto mt-28 px-5">
+  <!-- 入力フィールド -->
+  <div class="mb-8">
+    <input id="preview-text" type="text" value="こんにちは" placeholder="プレビューしたい文章を入力してください"
+      class="border rounded p-2 w-full max-w-xl mx-auto block" />
+  </div>
+
+  <!-- フィルターと文字サイズのコントロール -->
+  <div class="mb-8 flex flex-wrap gap-4 justify-center items-center">
+    <select id="style-filter" class="border rounded p-2">
+      <option value="">すべてのスタイル</option>
+      <% Font.select(:style).distinct.each do |font| %>
+        <option value="<%= font.style %>"><%= font.style %></option>
+      <% end %>
+    </select>
+
+    <select id="genre-filter" class="border rounded p-2">
+      <option value="">すべてのジャンル</option>
+      <% Font.select(:genre).distinct.each do |font| %>
+        <option value="<%= font.genre %>"><%= font.genre %></option>
+      <% end %>
+    </select>
+
+    <div>
+      <label for="font-size" class="mr-2">文字サイズ</label>
+      <input type="range" id="font-size" min="10" max="72" value="24" />
+      <span id="font-size-display">24px</span>
+    </div>
+  </div>
+
+  <!-- フォントプレビュー -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-6" id="font-preview-area">
+    <% @fonts.each do |font| %>
+      <link href="<%= font.font_url %>" rel="stylesheet">
+      <div class="border rounded p-4 shadow" data-style="<%= font.style %>" data-genre="<%= font.genre %>">
+        <h3 class="text-lg font-semibold mb-2"><%= font.name %></h3>
+        <p class="preview-text" style="font-family: '<%= font.name %>', sans-serif; font-size: 24px;">
+          こんにちは
+        </p>
+      </div>
+    <% end %>
+  </div>
+</main>
