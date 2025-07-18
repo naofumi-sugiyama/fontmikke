@@ -637,8 +637,8 @@ select {
   margin-right: auto;
 }
 
-.mb-6 {
-  margin-bottom: 1.5rem;
+.mt-28 {
+  margin-top: 7rem;
 }
 
 .mb-8 {
@@ -651,10 +651,6 @@ select {
 
 .mb-2 {
   margin-bottom: 0.5rem;
-}
-
-.mt-28 {
-  margin-top: 7rem;
 }
 
 .block {
@@ -721,14 +717,14 @@ select {
   padding: 1rem;
 }
 
-.px-6 {
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-}
-
 .px-5 {
   padding-left: 1.25rem;
   padding-right: 1.25rem;
+}
+
+.px-6 {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
 .text-lg {
