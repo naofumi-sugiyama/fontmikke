@@ -145,21 +145,17 @@ GEM
     net-smtp (0.5.1)
       net-protocol
     nio4r (2.7.4)
-    nokogiri (1.18.8-aarch64-linux-gnu)
+    nokogiri (1.15.7-aarch64-linux)
       racc (~> 1.4)
-    nokogiri (1.18.8-aarch64-linux-musl)
+    nokogiri (1.15.7-arm-linux)
       racc (~> 1.4)
-    nokogiri (1.18.8-arm-linux-gnu)
+    nokogiri (1.15.7-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.18.8-arm-linux-musl)
+    nokogiri (1.15.7-x86-linux)
       racc (~> 1.4)
-    nokogiri (1.18.8-arm64-darwin)
+    nokogiri (1.15.7-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.18.8-x86_64-darwin)
-      racc (~> 1.4)
-    nokogiri (1.18.8-x86_64-linux-gnu)
-      racc (~> 1.4)
-    nokogiri (1.18.8-x86_64-linux-musl)
+    nokogiri (1.15.7-x86_64-linux)
       racc (~> 1.4)
     pg (1.5.9)
     pp (0.6.2)
@@ -267,15 +263,12 @@ GEM
     zeitwerk (2.6.18)
 
 PLATFORMS
-  aarch64-linux-gnu
-  aarch64-linux-musl
-  arm-linux-gnu
-  arm-linux-musl
+  aarch64-linux
+  arm-linux
   arm64-darwin
+  x86-linux
   x86_64-darwin
   x86_64-linux
-  x86_64-linux-gnu
-  x86_64-linux-musl
 
 DEPENDENCIES
   bootsnap
@@ -283,6 +276,7 @@ DEPENDENCIES
   debug
   importmap-rails
   jbuilder
+  nokogiri (~> 1.15.0)
   pg (~> 1.1)
   puma (= 6.6.0)
   rails (= 7.1.3)
