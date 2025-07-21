@@ -1,11 +1,10 @@
 services:
   - type: web
     name: fontmikke
-    env: docker
+    env: ruby
     plan: free
     region: singapore
     branch: main
-    dockerfilePath: ./Dockerfile
     envVars:
       - key: RAILS_MASTER_KEY
         sync: false
