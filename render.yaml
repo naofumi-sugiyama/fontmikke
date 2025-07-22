@@ -9,6 +9,7 @@ services:
     buildCommand: |
       gem install bundler -v 2.4.22
       bundle install
+      bin/rails tailwindcss:build
       bundle exec rake assets:precompile
       bundle exec rake assets:clean
       bin/rails db:migrate
