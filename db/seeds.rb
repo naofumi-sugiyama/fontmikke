@@ -1,3 +1,9 @@
+# db/seeds.rb
+puts "=== Seed実行開始 ==="
+puts "Rails環境: #{Rails.env}"
+puts "現在のFont数: #{Font.count}"
+
+begin
 Font.create!([
   {
     name: "Noto Serif JP",
@@ -96,3 +102,14 @@ Font.create!([
   }
 
 ])
+puts "=== Seed実行完了 ==="
+puts "最終Font数: #{Font.count}"
+puts "作成されたフォント一覧:"
+Font.all.each { |font| puts "- #{font.name} (#{font.style}, #{font.genre})" }
+
+rescue => e
+puts "=== Seedエラー発生 ==="
+puts "エラー: #{e.message}"
+puts "バックトレース: #{e.backtrace.first(5)}"
+raise e
+end

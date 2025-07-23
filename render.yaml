@@ -12,8 +12,12 @@ services:
       bin/rails tailwindcss:build
       bundle exec rake assets:precompile
       bundle exec rake assets:clean
+      echo "=== マイグレーション開始 ==="
       bin/rails db:migrate
+      echo "=== マイグレーション完了 ==="
+      echo "=== Seed実行開始 ==="
       bin/rails db:seed
+      echo "=== Seed実行完了 ==="
     startCommand: bundle exec puma -t 5:5 -p ${PORT:-3000} -e ${RACK_ENV:-development}
 
     envVars:
