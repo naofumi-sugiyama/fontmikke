@@ -100,7 +100,7 @@ begin
     download_url: "https://fonts.google.com/specimen/Mochiy+Pop+One"
   }
 
-])
+]
 
   # 冪等性を担保したデータ投入
   created_count = 0
