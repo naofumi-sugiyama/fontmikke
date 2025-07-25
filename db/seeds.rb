@@ -1,10 +1,9 @@
-# db/seeds.rb
 puts "=== Seed実行開始 ==="
 puts "Rails環境: #{Rails.env}"
 puts "現在のFont数: #{Font.count}"
 
 begin
-Font.create!([
+  fonts_data = [
   {
     name: "Noto Serif JP",
     style: "明朝体",
@@ -102,14 +101,33 @@ Font.create!([
   }
 
 ])
-puts "=== Seed実行完了 ==="
-puts "最終Font数: #{Font.count}"
-puts "作成されたフォント一覧:"
-Font.all.each { |font| puts "- #{font.name} (#{font.style}, #{font.genre})" }
+
+  # 冪等性を担保したデータ投入
+  created_count = 0
+  existing_count = 0
+
+  fonts_data.each do |font_data|
+    font = Font.find_or_initialize_by(name: font_data[:name])
+
+    if font.persisted?
+      existing_count += 1
+    else
+      font.assign_attributes(font_data.except(:name))
+      if font.save
+        created_count += 1
+      else
+        puts "エラー: #{font_data[:name]} - #{font.errors.full_messages.join(', ')}"
+      end
+    end
+  end
+
+  puts "=== Seed実行完了 ==="
+  puts "新規作成: #{created_count}件"
+  puts "最終Font数: #{Font.count}"
 
 rescue => e
-puts "=== Seedエラー発生 ==="
-puts "エラー: #{e.message}"
-puts "バックトレース: #{e.backtrace.first(5)}"
-raise e
+  puts "=== Seedエラー発生 ==="
+  puts "エラー: #{e.message}"
+  puts "バックトレース: #{e.backtrace.first(5)}"
+  raise e
 end
