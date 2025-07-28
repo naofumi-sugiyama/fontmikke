@@ -1,7 +1,7 @@
 <main class="container mx-auto mt-28 px-5">
   <!-- 入力フィールド -->
   <div class="mb-8">
-    <input id="preview-text" type="text" value="こんにちは" placeholder="プレビューしたい文章を入力してください"
+    <input id="preview-input" type="text" value="こんにちは" placeholder="プレビューしたい文章を入力してください"
       class="border rounded p-2 w-full max-w-xl mx-auto block" />
   </div>
 
@@ -34,7 +34,7 @@
       <link href="<%= font.font_url %>" rel="stylesheet">
       <div class="border rounded p-4 shadow hover:shadow-lg transition-shadow" data-style="<%= font.style %>" data-genre="<%= font.genre %>">
         <h3 class="text-lg font-semibold mb-2">
-          <%= link_to font.name, font_path(font), class: "text-blue-600 hover:text-blue-800 hover:underline" %>
+          <%= link_to font.name, font_path(font), class: "text-blue-600 hover:text-blue-800 hover:underline font-link" %>
         </h3>
         <p class="preview-text" style="font-family: '<%= font.name %>', sans-serif; font-size: 24px;">
           こんにちは
@@ -43,3 +43,58 @@
     <% end %>
   </div>
 </main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const previewInput = document.getElementById('preview-input');
+  const fontLinks = document.querySelectorAll('.font-link');
+  const previewTexts = document.querySelectorAll('.preview-text');
+  const fontSizeSlider = document.getElementById('font-size');
+  const fontSizeDisplay = document.getElementById('font-size-display');
+
+  console.log('=== トップページデバッグ ===');
+  console.log('プレビュー入力要素:', previewInput);
+  console.log('フォントリンク数:', fontLinks.length);
+  console.log('プレビューテキスト数:', previewTexts.length);
+
+  // プレビューテキスト更新機能
+  if (previewInput && previewTexts.length > 0) {
+    previewInput.addEventListener('input', function() {
+      const text = this.value || 'こんにちは';
+      console.log('入力されたテキスト:', text);
+
+      // すべてのプレビューテキストを更新
+      previewTexts.forEach(previewText => {
+        previewText.textContent = text;
+      });
+
+      // すべてのフォントリンクのURLを更新
+      fontLinks.forEach(link => {
+        const url = new URL(link.href, window.location.origin);
+        if (text && text !== 'こんにちは') {
+          url.searchParams.set('preview_text', text);
+        } else {
+          url.searchParams.delete('preview_text');
+        }
+        link.href = url.toString();
+        console.log('更新されたURL:', link.href);
+      });
+    });
+  }
+
+  // フォントサイズ調整機能
+  if (fontSizeSlider && fontSizeDisplay && previewTexts.length > 0) {
+    fontSizeSlider.addEventListener('input', function() {
+      const size = this.value + 'px';
+      fontSizeDisplay.textContent = size;
+
+      previewTexts.forEach(previewText => {
+        previewText.style.fontSize = size;
+      });
+
+      console.log('フォントサイズ更新:', size);
+    });
+  }
+
+});
+</script>

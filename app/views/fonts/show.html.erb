@@ -13,7 +13,7 @@
     <div class="mb-8">
       <h2 class="text-xl font-semibold mb-4">プレビュー</h2>
       <div class="mb-4">
-        <input id="preview-text" type="text" value="サンプルテキスト"
+        <input id="preview-input" type="text" value="<%= @preview_text %>"
                placeholder="プレビューしたい文章を入力してください"
                class="border rounded p-2 w-full" />
       </div>
@@ -26,7 +26,7 @@
       <link href="<%= @font.font_url %>" rel="stylesheet">
       <div class="border rounded p-6 bg-gray-50">
         <p id="font-preview" style="font-family: '<%= @font.name %>', sans-serif; font-size: 24px;">
-          サンプルテキスト
+          <%= @preview_text %>
         </p>
       </div>
     </div>
@@ -38,3 +38,36 @@
     </div>
   </div>
 </main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const previewInput = document.getElementById('preview-input');
+  const fontPreview = document.getElementById('font-preview');
+  const fontSizeSlider = document.getElementById('font-size');
+  const fontSizeDisplay = document.getElementById('font-size-display');
+
+  // デバッグ用ログ
+  console.log('プレビュー要素:', fontPreview);
+  console.log('入力フィールド:', previewInput);
+  console.log('フォントサイズスライダー:', fontSizeSlider);
+
+  // プレビューテキスト更新機能
+  if (previewInput && fontPreview) {
+    previewInput.addEventListener('input', function() {
+      const text = this.value || 'こんにちは';
+      fontPreview.textContent = text;
+      console.log('テキスト更新:', text);
+    });
+  }
+
+  // フォントサイズ調整機能
+  if (fontSizeSlider && fontSizeDisplay && fontPreview) {
+    fontSizeSlider.addEventListener('input', function() {
+      const size = this.value + 'px';
+      fontSizeDisplay.textContent = size;
+      fontPreview.style.fontSize = size;
+      console.log('フォントサイズ更新:', size);
+    });
+  }
+});
+</script>
