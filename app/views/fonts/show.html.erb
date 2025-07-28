@@ -1,0 +1,40 @@
+<main class="container mx-auto mt-28 px-5">
+  <div class="max-w-4xl mx-auto">
+    <!-- フォント情報 -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold mb-4"><%= @font.name %></h1>
+      <div class="flex gap-4 mb-4">
+        <span class="bg-blue-100 px-3 py-1 rounded">スタイル: <%= @font.style %></span>
+        <span class="bg-green-100 px-3 py-1 rounded">ジャンル: <%= @font.genre %></span>
+      </div>
+    </div>
+
+    <!-- プレビューエリア -->
+    <div class="mb-8">
+      <h2 class="text-xl font-semibold mb-4">プレビュー</h2>
+      <div class="mb-4">
+        <input id="preview-text" type="text" value="サンプルテキスト"
+               placeholder="プレビューしたい文章を入力してください"
+               class="border rounded p-2 w-full" />
+      </div>
+      <div class="mb-4">
+        <label for="font-size" class="mr-2">文字サイズ</label>
+        <input type="range" id="font-size" min="10" max="72" value="24" />
+        <span id="font-size-display">24px</span>
+      </div>
+
+      <link href="<%= @font.font_url %>" rel="stylesheet">
+      <div class="border rounded p-6 bg-gray-50">
+        <p id="font-preview" style="font-family: '<%= @font.name %>', sans-serif; font-size: 24px;">
+          サンプルテキスト
+        </p>
+      </div>
+    </div>
+
+    <!-- 戻るボタン -->
+    <div class="text-center">
+      <%= link_to "フォント一覧に戻る", root_path,
+                  class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+    </div>
+  </div>
+</main>

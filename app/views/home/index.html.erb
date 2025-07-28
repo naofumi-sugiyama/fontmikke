@@ -32,8 +32,10 @@
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-6" id="font-preview-area">
     <% @fonts.each do |font| %>
       <link href="<%= font.font_url %>" rel="stylesheet">
-      <div class="border rounded p-4 shadow" data-style="<%= font.style %>" data-genre="<%= font.genre %>">
-        <h3 class="text-lg font-semibold mb-2"><%= font.name %></h3>
+      <div class="border rounded p-4 shadow hover:shadow-lg transition-shadow" data-style="<%= font.style %>" data-genre="<%= font.genre %>">
+        <h3 class="text-lg font-semibold mb-2">
+          <%= link_to font.name, font_path(font), class: "text-blue-600 hover:text-blue-800 hover:underline" %>
+        </h3>
         <p class="preview-text" style="font-family: '<%= font.name %>', sans-serif; font-size: 24px;">
           こんにちは
         </p>
