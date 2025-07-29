@@ -45,6 +45,9 @@
 </main>
 
 <script>
+// グローバルスコープで関数を定義
+let updateFontLinks;
+
 document.addEventListener('DOMContentLoaded', function() {
   const previewInput = document.getElementById('preview-input');
   const fontLinks = document.querySelectorAll('.font-link');
@@ -52,33 +55,56 @@ document.addEventListener('DOMContentLoaded', function() {
   const fontSizeSlider = document.getElementById('font-size');
   const fontSizeDisplay = document.getElementById('font-size-display');
 
-  console.log('=== トップページデバッグ ===');
-  console.log('プレビュー入力要素:', previewInput);
-  console.log('フォントリンク数:', fontLinks.length);
-  console.log('プレビューテキスト数:', previewTexts.length);
+  // URL更新関数をグローバルスコープに定義
+  updateFontLinks = function() {
+
+    if (!previewInput || !fontSizeSlider || fontLinks.length === 0) {
+      console.warn('必要な要素が見つかりません');
+      return;
+    }
+
+    const text = previewInput.value || 'こんにちは';
+    const currentSize = fontSizeSlider.value;
+
+    fontLinks.forEach((link, index) => {
+      try {
+        const url = new URL(link.href, window.location.origin);
+
+        // テキストパラメータの設定
+        if (text && text.trim() !== '' && text !== 'こんにちは') {
+          url.searchParams.set('preview_text', text);
+        } else {
+          url.searchParams.delete('preview_text');
+        }
+
+        // フォントサイズパラメータの設定
+        if (currentSize && currentSize !== '24') {
+          url.searchParams.set('font_size', currentSize);
+        } else {
+          url.searchParams.delete('font_size');
+        }
+
+        link.href = url.toString();
+
+      } catch (error) {
+        console.error(`リンク${index + 1}のURL更新エラー:`, error);
+      }
+    });
+
+  };
 
   // プレビューテキスト更新機能
   if (previewInput && previewTexts.length > 0) {
     previewInput.addEventListener('input', function() {
       const text = this.value || 'こんにちは';
-      console.log('入力されたテキスト:', text);
 
-      // すべてのプレビューテキストを更新
+      // プレビューテキストを更新
       previewTexts.forEach(previewText => {
         previewText.textContent = text;
       });
 
-      // すべてのフォントリンクのURLを更新
-      fontLinks.forEach(link => {
-        const url = new URL(link.href, window.location.origin);
-        if (text && text !== 'こんにちは') {
-          url.searchParams.set('preview_text', text);
-        } else {
-          url.searchParams.delete('preview_text');
-        }
-        link.href = url.toString();
-        console.log('更新されたURL:', link.href);
-      });
+      // URLを更新
+      updateFontLinks();
     });
   }
 
@@ -88,13 +114,19 @@ document.addEventListener('DOMContentLoaded', function() {
       const size = this.value + 'px';
       fontSizeDisplay.textContent = size;
 
+      // プレビューテキストのサイズを更新
       previewTexts.forEach(previewText => {
         previewText.style.fontSize = size;
       });
 
-      console.log('フォントサイズ更新:', size);
+      // 【修正】URLを更新
+      updateFontLinks();
     });
   }
 
+  // 初期状態でURL更新を実行（スライダーがデフォルト値以外の場合）
+  if (fontSizeSlider && fontSizeSlider.value !== '24') {
+    updateFontLinks();
+  }
 });
 </script>

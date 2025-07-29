@@ -46,10 +46,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const fontSizeSlider = document.getElementById('font-size');
   const fontSizeDisplay = document.getElementById('font-size-display');
 
-  // デバッグ用ログ
-  console.log('プレビュー要素:', fontPreview);
-  console.log('入力フィールド:', previewInput);
-  console.log('フォントサイズスライダー:', fontSizeSlider);
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlFontSize = urlParams.get('font_size');
 
   // プレビューテキスト更新機能
   if (previewInput && fontPreview) {
@@ -69,5 +67,13 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log('フォントサイズ更新:', size);
     });
   }
+
+  // URLパラメータからフォントサイズを適用
+  if (urlFontSize && fontSizeSlider && fontPreview) {
+    fontSizeSlider.value = urlFontSize;
+    fontSizeDisplay.textContent = urlFontSize + 'px';
+    fontPreview.style.fontSize = urlFontSize + 'px';
+  }
+
 });
 </script>
