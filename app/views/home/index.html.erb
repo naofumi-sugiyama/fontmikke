@@ -14,30 +14,69 @@
 
   <!-- 入力フィールド -->
   <div class="mb-8">
-    <input id="preview-input" type="text" value="こんにちは" placeholder="プレビューしたい文章を入力してください"
-      class="border rounded p-2 w-full max-w-xl mx-auto block" />
+    <input id="preview-input" type="text" value="" placeholder="プレビューしたい文章を入力してください"
+      class="border rounded-lg p-3 w-full max-w-xl mx-auto block focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all" />
   </div>
 
   <!-- フィルターと文字サイズのコントロール -->
-  <div class="mb-8 flex flex-wrap gap-4 justify-center items-center">
-    <select id="style-filter" class="border rounded p-2">
-      <option value="">すべてのスタイル</option>
-      <% Font.select(:style).distinct.each do |font| %>
-        <option value="<%= font.style %>"><%= font.style %></option>
-      <% end %>
-    </select>
+  <div class="mb-8 bg-gray-50 p-6 rounded-lg shadow-sm">
+    <div class="flex flex-wrap gap-6 justify-center items-center">
 
-    <select id="genre-filter" class="border rounded p-2">
-      <option value="">すべてのジャンル</option>
-      <% Font.select(:genre).distinct.each do |font| %>
-        <option value="<%= font.genre %>"><%= font.genre %></option>
-      <% end %>
-    </select>
+      <!-- スタイルフィルター -->
+      <div class="flex flex-col items-center gap-2">
+        <label for="style-filter" class="text-sm font-medium text-gray-700">
+          <i class="fas fa-palette mr-1"></i>スタイル
+        </label>
+        <select id="style-filter" class="border border-gray-300 rounded-md px-3 py-2 bg-white shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">
+          <option value="">すべて</option>
+          <% Font.select(:style).distinct.each do |font| %>
+            <option value="<%= font.style %>"><%= font.style %></option>
+          <% end %>
+        </select>
+      </div>
 
-    <div>
-      <label for="font-size" class="mr-2">文字サイズ</label>
-      <input type="range" id="font-size" min="10" max="72" value="24" />
-      <span id="font-size-display">24px</span>
+      <!-- ジャンルフィルター -->
+      <div class="flex flex-col items-center gap-2">
+        <label for="genre-filter" class="text-sm font-medium text-gray-700">
+          <i class="fas fa-tags mr-1"></i>ジャンル
+        </label>
+        <select id="genre-filter" class="border border-gray-300 rounded-md px-3 py-2 bg-white shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">
+          <option value="">すべて</option>
+          <% Font.select(:genre).distinct.each do |font| %>
+            <option value="<%= font.genre %>"><%= font.genre %></option>
+          <% end %>
+        </select>
+      </div>
+
+      <!-- フォントサイズ調整 -->
+      <div class="flex flex-col items-center gap-2">
+        <label for="font-size" class="text-sm font-medium text-gray-700">
+          <i class="fas fa-text-height mr-1"></i>文字サイズ
+        </label>
+        <div class="flex items-center gap-3">
+          <span class="text-xs text-gray-500">小</span>
+          <input type="range" id="font-size" min="10" max="72" value="24" 
+                 class="w-24 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider" />
+          <span class="text-xs text-gray-500">大</span>
+          <span id="font-size-display" class="text-sm font-mono bg-blue-100 text-blue-800 px-2 py-1 rounded min-w-[50px] text-center">24px</span>
+        </div>
+      </div>
+
+      <!-- リセットボタン -->
+      <div class="flex flex-col items-center gap-2">
+        <label class="text-sm font-medium text-gray-700">
+          <i class="fas fa-undo mr-1"></i>リセット
+        </label>
+        <button id="reset-filters" class="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-md transition-colors">
+          クリア
+        </button>
+      </div>
+
+    </div>
+
+    <!-- フィルター結果表示 -->
+    <div class="mt-4 text-center">
+      <span id="filter-result" class="text-sm text-gray-600"></span>
     </div>
   </div>
 
@@ -45,15 +84,32 @@
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-6" id="font-preview-area">
     <% @fonts.each do |font| %>
       <link href="<%= font.font_url %>" rel="stylesheet">
-      <div class="border rounded p-4 shadow hover:shadow-lg transition-shadow" data-style="<%= font.style %>" data-genre="<%= font.genre %>">
-        <h3 class="text-lg font-semibold mb-2">
-          <%= link_to font.name, font_path(font), class: "text-blue-600 hover:text-blue-800 hover:underline font-link" %>
+      <div class="font-card border rounded-lg p-4 shadow hover:shadow-lg transition-all duration-200 bg-white" 
+           data-style="<%= font.style %>"
+           data-genre="<%= font.genre %>">
+        <h3 class="text-lg font-semibold mb-3">
+          <%= link_to font.name, font_path(font), class: "text-blue-600 hover:text-blue-800 hover:underline font-link transition-colors" %>
         </h3>
-        <p class="preview-text" style="font-family: '<%= font.name %>', sans-serif; font-size: 24px;">
-          こんにちは
-        </p>
+        <div class="bg-gray-50 rounded p-3 mb-2">
+          <p class="preview-text text-center" style="font-family: '<%= font.name %>', sans-serif; font-size: 24px; line-height: 1.4;">
+            こんにちは
+          </p>
+        </div>
+        <div class="flex justify-between text-xs text-gray-500">
+          <span class="bg-gray-100 px-2 py-1 rounded"><%= font.style %></span>
+          <span class="bg-gray-100 px-2 py-1 rounded"><%= font.genre %></span>
+        </div>
       </div>
     <% end %>
+  </div>
+
+  <!-- フォントが見つからない場合のメッセージ -->
+  <div id="no-fonts-message" class="text-center py-12 hidden">
+    <div class="text-gray-400 mb-4">
+      <i class="fas fa-search text-4xl"></i>
+    </div>
+    <p class="text-xl text-gray-600 mb-2">該当するフォントが見つかりません</p>
+    <p class="text-gray-500">フィルター条件を変更してお試しください</p>
   </div>
 </main>
 
@@ -67,10 +123,15 @@ document.addEventListener('DOMContentLoaded', function() {
   const previewTexts = document.querySelectorAll('.preview-text');
   const fontSizeSlider = document.getElementById('font-size');
   const fontSizeDisplay = document.getElementById('font-size-display');
+  const styleFilter = document.getElementById('style-filter');
+  const genreFilter = document.getElementById('genre-filter');
+  const resetButton = document.getElementById('reset-filters');
+  const fontCards = document.querySelectorAll('.font-card');
+  const filterResult = document.getElementById('filter-result');
+  const noFontsMessage = document.getElementById('no-fonts-message');
 
   // URL更新関数をグローバルスコープに定義
   updateFontLinks = function() {
-
     if (!previewInput || !fontSizeSlider || fontLinks.length === 0) {
       console.warn('必要な要素が見つかりません');
       return;
@@ -103,8 +164,58 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error(`リンク${index + 1}のURL更新エラー:`, error);
       }
     });
-
   };
+
+  // フィルター機能
+  function applyFilters() {
+    const selectedStyle = styleFilter.value;
+    const selectedGenre = genreFilter.value;
+    let visibleCount = 0;
+
+    fontCards.forEach(card => {
+      const cardStyle = card.dataset.style;
+      const cardGenre = card.dataset.genre;
+
+      const styleMatch = !selectedStyle || cardStyle === selectedStyle;
+      const genreMatch = !selectedGenre || cardGenre === selectedGenre;
+
+      if (styleMatch && genreMatch) {
+        card.style.display = 'block';
+        card.classList.add('animate-fadeIn');
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+        card.classList.remove('animate-fadeIn');
+      }
+    });
+
+    // 結果表示の更新
+    updateFilterResult(visibleCount, selectedStyle, selectedGenre);
+  }
+
+  // フィルター結果表示の更新
+  function updateFilterResult(count, style, genre) {
+    const fontPreviewArea = document.getElementById('font-preview-area');
+
+    if (count === 0) {
+      noFontsMessage.classList.remove('hidden');
+      fontPreviewArea.style.display = 'none';
+      filterResult.textContent = '該当するフォントがありません';
+    } else {
+      noFontsMessage.classList.add('hidden');
+      fontPreviewArea.style.display = 'grid';
+
+      let resultText = `${count}個のフォントが見つかりました`;
+      if (style || genre) {
+        resultText += ' (';
+        const filters = [];
+        if (style) filters.push(`スタイル: ${style}`);
+        if (genre) filters.push(`ジャンル: ${genre}`);
+        resultText += filters.join(', ') + ')';
+      }
+      filterResult.textContent = resultText;
+    }
+  }
 
   // プレビューテキスト更新機能
   if (previewInput && previewTexts.length > 0) {
@@ -132,14 +243,382 @@ document.addEventListener('DOMContentLoaded', function() {
         previewText.style.fontSize = size;
       });
 
-      // 【修正】URLを更新
+      // URLを更新
       updateFontLinks();
     });
   }
 
-  // 初期状態でURL更新を実行（スライダーがデフォルト値以外の場合）
+  // フィルターのイベントリスナー
+  if (styleFilter) {
+    styleFilter.addEventListener('change', applyFilters);
+  }
+
+  if (genreFilter) {
+    genreFilter.addEventListener('change', applyFilters);
+  }
+
+  // リセットボタンの機能
+  if (resetButton) {
+    resetButton.addEventListener('click', function() {
+      // フィルターをリセット
+      if (styleFilter) styleFilter.value = '';
+      if (genreFilter) genreFilter.value = '';
+
+      // フォントサイズをリセット
+      if (fontSizeSlider) {
+        fontSizeSlider.value = '24';
+        fontSizeDisplay.textContent = '24px';
+        previewTexts.forEach(previewText => {
+          previewText.style.fontSize = '24px';
+        });
+      }
+
+      // プレビューテキストをリセット
+      if (previewInput) {
+        previewInput.value = '';
+        previewTexts.forEach(previewText => {
+          previewText.textContent = 'こんにちは';
+        });
+      }
+
+      // フィルターを適用
+      applyFilters();
+
+      // URLを更新
+      updateFontLinks();
+    });
+  }
+
+  // 初期状態でフィルター結果を表示
+  applyFilters();
+
+  // 初期状態でURL更新を実行
+  if (fontSizeSlider && fontSizeSlider.value !== '24') {
+    updateFontLinks();
+  }
+});
+</script><script>
+// グローバルスコープで関数を定義
+let updateFontLinks;
+
+document.addEventListener('DOMContentLoaded', function() {
+  const previewInput = document.getElementById('preview-input');
+  const fontLinks = document.querySelectorAll('.font-link');
+  const previewTexts = document.querySelectorAll('.preview-text');
+  const fontSizeSlider = document.getElementById('font-size');
+  const fontSizeDisplay = document.getElementById('font-size-display');
+  const styleFilter = document.getElementById('style-filter');
+  const genreFilter = document.getElementById('genre-filter');
+  const resetButton = document.getElementById('reset-filters');
+  const fontCards = document.querySelectorAll('.font-card');
+  const filterResult = document.getElementById('filter-result');
+  const noFontsMessage = document.getElementById('no-fonts-message');
+
+  // URL更新関数をグローバルスコープに定義
+  updateFontLinks = function() {
+    if (!previewInput || !fontSizeSlider || fontLinks.length === 0) {
+      console.warn('必要な要素が見つかりません');
+      return;
+    }
+
+    const text = previewInput.value || 'こんにちは';
+    const currentSize = fontSizeSlider.value;
+
+    fontLinks.forEach((link, index) => {
+      try {
+        const url = new URL(link.href, window.location.origin);
+
+        // テキストパラメータの設定
+        if (text && text.trim() !== '' && text !== 'こんにちは') {
+          url.searchParams.set('preview_text', text);
+        } else {
+          url.searchParams.delete('preview_text');
+        }
+
+        // フォントサイズパラメータの設定
+        if (currentSize && currentSize !== '24') {
+          url.searchParams.set('font_size', currentSize);
+        } else {
+          url.searchParams.delete('font_size');
+        }
+
+        link.href = url.toString();
+
+      } catch (error) {
+        console.error(`リンク${index + 1}のURL更新エラー:`, error);
+      }
+    });
+  };
+
+  // フィルター機能
+  function applyFilters() {
+    const selectedStyle = styleFilter.value;
+    const selectedGenre = genreFilter.value;
+    let visibleCount = 0;
+
+    fontCards.forEach(card => {
+      const cardStyle = card.dataset.style;
+      const cardGenre = card.dataset.genre;
+
+      const styleMatch = !selectedStyle || cardStyle === selectedStyle;
+      const genreMatch = !selectedGenre || cardGenre === selectedGenre;
+
+      if (styleMatch && genreMatch) {
+        card.style.display = 'block';
+        card.classList.add('animate-fadeIn');
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+        card.classList.remove('animate-fadeIn');
+      }
+    });
+
+    // 結果表示の更新
+    updateFilterResult(visibleCount, selectedStyle, selectedGenre);
+  }
+
+  // フィルター結果表示の更新
+  function updateFilterResult(count, style, genre) {
+    const fontPreviewArea = document.getElementById('font-preview-area');
+
+    if (count === 0) {
+      noFontsMessage.classList.remove('hidden');
+      fontPreviewArea.style.display = 'none';
+      filterResult.textContent = '該当するフォントがありません';
+    } else {
+      noFontsMessage.classList.add('hidden');
+      fontPreviewArea.style.display = 'grid';
+
+      let resultText = `${count}個のフォントが見つかりました`;
+      if (style || genre) {
+        resultText += ' (';
+        const filters = [];
+        if (style) filters.push(`スタイル: ${style}`);
+        if (genre) filters.push(`ジャンル: ${genre}`);
+        resultText += filters.join(', ') + ')';
+      }
+      filterResult.textContent = resultText;
+    }
+  }
+
+  // プレビューテキスト更新機能
+  if (previewInput && previewTexts.length > 0) {
+    previewInput.addEventListener('input', function() {
+      const text = this.value || 'こんにちは';
+
+      // プレビューテキストを更新
+      previewTexts.forEach(previewText => {
+        previewText.textContent = text;
+      });
+
+      // URLを更新
+      updateFontLinks();
+    });
+  }
+
+  // フォントサイズ調整機能
+  if (fontSizeSlider && fontSizeDisplay && previewTexts.length > 0) {
+    fontSizeSlider.addEventListener('input', function() {
+      const size = this.value + 'px';
+      fontSizeDisplay.textContent = size;
+
+      // プレビューテキストのサイズを更新
+      previewTexts.forEach(previewText => {
+        previewText.style.fontSize = size;
+      });
+
+      // URLを更新
+      updateFontLinks();
+    });
+  }
+
+  // フィルターのイベントリスナー
+  if (styleFilter) {
+    styleFilter.addEventListener('change', applyFilters);
+  }
+
+  if (genreFilter) {
+    genreFilter.addEventListener('change', applyFilters);
+  }
+
+  // リセットボタンの機能
+  if (resetButton) {
+    resetButton.addEventListener('click', function() {
+      // フィルターをリセット
+      if (styleFilter) styleFilter.value = '';
+      if (genreFilter) genreFilter.value = '';
+
+      // フォントサイズをリセット
+      if (fontSizeSlider) {
+        fontSizeSlider.value = '24';
+        fontSizeDisplay.textContent = '24px';
+        previewTexts.forEach(previewText => {
+          previewText.style.fontSize = '24px';
+        });
+      }
+
+      // プレビューテキストをリセット
+      if (previewInput) {
+        previewInput.value = '';
+        previewTexts.forEach(previewText => {
+          previewText.textContent = 'こんにちは';
+        });
+      }
+
+      // フィルターを適用
+      applyFilters();
+
+      // URLを更新
+      updateFontLinks();
+    });
+  }
+
+  // 初期状態でフィルター結果を表示
+  applyFilters();
+
+  // 初期状態でURL更新を実行
   if (fontSizeSlider && fontSizeSlider.value !== '24') {
     updateFontLinks();
   }
 });
 </script>
+
+<style>
+/* スライダーのスタイリング */
+.slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #3b82f6;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.slider::-webkit-slider-track {
+  width: 100%;
+  height: 8px;
+  cursor: pointer;
+  background: #e5e7eb;
+  border-radius: 4px;
+}
+
+.slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #3b82f6;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.slider::-moz-range-track {
+  width: 100%;
+  height: 8px;
+  cursor: pointer;
+  background: #e5e7eb;
+  border-radius: 4px;
+  border: none;
+}
+
+/* アニメーション */
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ホバーエフェクト */
+.font-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+/* フィルターエリアのレスポンシブ対応 */
+@media (max-width: 768px) {
+  .flex.flex-wrap.gap-6 {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .flex.flex-col.items-center.gap-2 {
+    width: 100%;
+    align-items: stretch;
+  }
+
+  .flex.items-center.gap-3 {
+    justify-content: center;
+  }
+}
+
+/* フォントプレビューエリアのレスポンシブ */
+@media (max-width: 640px) {
+  .grid.grid-cols-1.sm\\:grid-cols-2.md\\:grid-cols-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 768px) {
+  .grid.grid-cols-1.sm\\:grid-cols-2.md\\:grid-cols-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ボタンのホバーエフェクト強化 */
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* セレクトボックスのスタイル改善 */
+select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+}
+
+/* フォーカス時のアクセシビリティ改善 */
+input:focus,
+select:focus,
+button:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* ローディング状態のスタイル（将来の拡張用） */
+.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
