@@ -261,11 +261,12 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // URLパラメータからフォントサイズを適用
-  if (urlFontSize && fontSizeSlider && fontPreview) {
+  if (urlFontSize && fontSizeSlider && fontPreview && fontSizeDisplay) {
     fontSizeSlider.value = urlFontSize;
     fontSizeDisplay.textContent = urlFontSize + 'px';
     fontPreview.style.fontSize = urlFontSize + 'px';
   }
+});
 
 // コピー機能
 function copyToClipboard(text) {
