@@ -138,28 +138,22 @@ begin
 
 ]
 
-  # 冪等性を担保したデータ投入
-  created_count = 0
-  existing_count = 0
+# 冪等性を確保
+fonts_data.each do |font_data|
+  font = Font.find_by(name: font_data[:name])
 
-  fonts_data.each do |font_data|
-    font = Font.find_or_initialize_by(name: font_data[:name])
-
-    if font.persisted?
-      existing_count += 1
-    else
-      font.assign_attributes(font_data.except(:name))
-      if font.save
-        created_count += 1
-      else
-        puts "エラー: #{font_data[:name]} - #{font.errors.full_messages.join(', ')}"
-      end
-    end
+  if font
+    # 既存レコードを更新
+    font.update!(font_data.except(:name))
+    puts "更新: #{font.name}"
+  else
+    # 新規作成
+    Font.create!(font_data)
+    puts "作成: #{font_data[:name]}"
   end
+end
 
-  puts "=== Seed実行完了 ==="
-  puts "新規作成: #{created_count}件"
-  puts "最終Font数: #{Font.count}"
+puts "フォントデータの投入が完了しました！"
 
 rescue => e
   puts "=== Seedエラー発生 ==="
