@@ -9,7 +9,10 @@ begin
     style: "明朝体",
     genre: "上品",
     font_url: "https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200..900&display=swap",
-    download_url: "https://fonts.google.com/noto/specimen/Noto+Serif+JP"
+    download_url: "https://fonts.google.com/noto/specimen/Noto+Serif+JP",
+    commercial_use: true,
+    license_type: "SIL Open Font License",
+    license_url: "https://openfontlicense.org/"
   },
 
   {
@@ -17,7 +20,10 @@ begin
     style: "明朝体",
     genre: "上品",
     font_url: "https://fonts.googleapis.com/css2?family=Sawarabi+Mincho&display=swap",
-    download_url: "https://fonts.google.com/specimen/Sawarabi+Mincho"
+    download_url: "https://fonts.google.com/specimen/Sawarabi+Mincho",
+    commercial_use: true,
+    license_type: "SIL Open Font License",
+    license_url: "https://openfontlicense.org/"
   },
 
   {
@@ -25,7 +31,10 @@ begin
     style: "ゴシック体",
     genre: "ビジネス",
     font_url: "https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap",
-    download_url: "https://fonts.google.com/specimen/Noto+Sans+JP"
+    download_url: "https://fonts.google.com/specimen/Noto+Sans+JP",
+    commercial_use: true,
+    license_type: "SIL Open Font License",
+    license_url: "https://openfontlicense.org/"
   },
 
   {
@@ -33,7 +42,10 @@ begin
     style: "ゴシック体",
     genre: "ビジネス",
     font_url: "https://fonts.googleapis.com/css2?family=M+PLUS+1p&display=swap",
-    download_url: "https://fonts.google.com/specimen/M+PLUS+1p"
+    download_url: "https://fonts.google.com/specimen/M+PLUS+1p",
+    commercial_use: true,
+    license_type: "SIL Open Font License",
+    license_url: "https://openfontlicense.org/"
   },
 
   {
@@ -41,7 +53,10 @@ begin
     style: "ゴシック体",
     genre: "インパクト",
     font_url: "https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap",
-    download_url: "https://fonts.google.com/specimen/Dela+Gothic+One"
+    download_url: "https://fonts.google.com/specimen/Dela+Gothic+One",
+    commercial_use: true,
+    license_type: "SIL Open Font License",
+    license_url: "https://openfontlicense.org/"
   },
 
   {
@@ -49,7 +64,10 @@ begin
     style: "丸ゴシック体",
     genre: "かわいい",
     font_url: "https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap",
-    download_url: "https://fonts.google.com/specimen/M+PLUS+Rounded+1c"
+    download_url: "https://fonts.google.com/specimen/M+PLUS+Rounded+1c",
+    commercial_use: true,
+    license_type: "SIL Open Font License",
+    license_url: "https://openfontlicense.org/"
   },
 
   {
@@ -57,7 +75,10 @@ begin
     style: "丸ゴシック体",
     genre: "かわいい",
     font_url: "https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic&display=swap",
-    download_url: "https://fonts.google.com/specimen/Zen+Maru+Gothic"
+    download_url: "https://fonts.google.com/specimen/Zen+Maru+Gothic",
+    commercial_use: true,
+    license_type: "SIL Open Font License",
+    license_url: "https://openfontlicense.org/"
   },
 
   {
@@ -65,7 +86,10 @@ begin
     style: "筆書体",
     genre: "かっこいい",
     font_url: "https://fonts.googleapis.com/css2?family=Yuji+Boku&display=swap",
-    download_url: "https://fonts.google.com/specimen/Yuji+Boku"
+    download_url: "https://fonts.google.com/specimen/Yuji+Boku",
+    commercial_use: true,
+    license_type: "SIL Open Font License",
+    license_url: "https://openfontlicense.org/"
   },
 
   {
@@ -73,7 +97,10 @@ begin
     style: "筆書体",
     genre: "かっこいい",
     font_url: "https://fonts.googleapis.com/css2?family=Yuji+Mai&display=swap",
-    download_url: "https://fonts.google.com/specimen/Yuji+Mai"
+    download_url: "https://fonts.google.com/specimen/Yuji+Mai",
+    commercial_use: true,
+    license_type: "SIL Open Font License",
+    license_url: "https://openfontlicense.org/"
   },
 
   {
@@ -81,7 +108,10 @@ begin
     style: "筆書体",
     genre: "かっこいい",
     font_url: "https://fonts.googleapis.com/css2?family=Yuji+Syuku&display=swap",
-    download_url: "https://fonts.google.com/specimen/Yuji+Syuku"
+    download_url: "https://fonts.google.com/specimen/Yuji+Syuku",
+    commercial_use: true,
+    license_type: "SIL Open Font License",
+    license_url: "https://openfontlicense.org/"
   },
 
   {
@@ -89,7 +119,10 @@ begin
     style: "デザインフォント",
     genre: "かわいい",
     font_url: "https://fonts.googleapis.com/css2?family=Kaisei+Decol&display=swap",
-    download_url: "https://fonts.google.com/specimen/Kaisei+Decol"
+    download_url: "https://fonts.google.com/specimen/Kaisei+Decol",
+    commercial_use: true,
+    license_type: "SIL Open Font License",
+    license_url: "https://openfontlicense.org/"
   },
 
   {
@@ -97,7 +130,10 @@ begin
     style: "デザインフォント",
     genre: "かわいい",
     font_url: "https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&display=swap",
-    download_url: "https://fonts.google.com/specimen/Mochiy+Pop+One"
+    download_url: "https://fonts.google.com/specimen/Mochiy+Pop+One",
+    commercial_use: true,
+    license_type: "SIL Open Font License",
+    license_url: "https://openfontlicense.org/"
   }
 
 ]
