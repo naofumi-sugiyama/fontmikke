@@ -6,15 +6,19 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag "application.tailwind", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="min-h-screen flex flex-col" style="background: lightcoral;">
+  <body class="min-h-screen">
+    <!-- レイアウト専用のラッパー -->
+    <div class="flex flex-col min-h-screen items-center bg-blue-200">
+
     <!-- ヘッダー部分 -->
     <%= render 'shared/header' %>
 
-    <main class="container mx-auto mt-28 px-5 flex-1" style="background: lightblue;">
+    <main class="flex-1 bg-yellow-300">
+      <div class="container mx-auto px-5 py-8">
       <!-- サービス説明セクション -->
       <div class="text-center mb-12">
         <h1 class="text-4xl font-bold mb-4">ふぉんとみっけ</h1>
@@ -71,7 +75,7 @@
             </label>
             <div class="flex items-center gap-3">
               <span class="text-xs text-gray-500">小</span>
-              <input type="range" id="font-size" min="10" max="72" value="24" 
+              <input type="range" id="font-size" min="10" max="72" value="24"
                     class="w-24 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider" />
               <span class="text-xs text-gray-500">大</span>
               <span id="font-size-display" class="text-sm font-mono bg-blue-100 text-blue-800 px-2 py-1 rounded min-w-[50px] text-center">24px</span>
@@ -127,10 +131,12 @@
         <p class="text-xl text-gray-600 mb-2">該当するフォントが見つかりません</p>
         <p class="text-gray-500">フィルター条件を変更してお試しください</p>
       </div>
+      </div>
     </main>
 
     <!-- フッター部分 -->
     <%= render 'shared/footer' %>
+    </div>
   </body>
 </html>
 
@@ -290,7 +296,7 @@ document.addEventListener('DOMContentLoaded', function() {
         fontSizeSlider.value = '24';
         fontSizeDisplay.textContent = '24px';
         previewTexts.forEach(previewText => {
-          previewText.style.fontSize = '24px';
+        previewText.style.fontSize = '24px';
         });
       }
 
@@ -298,7 +304,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (previewInput) {
         previewInput.value = '';
         previewTexts.forEach(previewText => {
-          previewText.textContent = 'こんにちは';
+        previewText.textContent = 'こんにちは';
         });
       }
 
@@ -504,12 +510,6 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <style>
-
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
 
 /* スライダーのスタイリング */
 .slider::-webkit-slider-thumb {
