@@ -1,117 +1,122 @@
-<main class="container mx-auto mt-28 px-5">
-  <!-- サービス説明セクション -->
-  <div class="text-center mb-12">
-    <h1 class="text-4xl font-bold mb-4">ふぉんとみっけ</h1>
-    <p class="text-lg text-gray-600 mb-6 max-w-2xl mx-auto">
-      お好きな文章でさまざまなフォントをプレビューできます。<br>
-      文字サイズやスタイルを調整して、あなたの理想のフォントを見つけましょう。
-    </p>
-    <!-- 使い方の簡単な説明 -->
-    <div class="text-sm text-gray-500 mb-8">
-      <p>下のテキストボックスに文章を入力すると、リアルタイムでプレビューが更新されます。</p>
-    </div>
-  </div>
+    <!-- レイアウト専用のラッパー -->
+    <div class="flex flex-col min-h-screen">
 
-  <!-- 入力フィールド -->
-  <div class="mb-8">
-    <input id="preview-input" type="text" value="" placeholder="プレビューしたい文章を入力してください"
-      class="border rounded-lg p-3 w-full max-w-xl mx-auto block focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all" />
-  </div>
-
-  <!-- フィルターと文字サイズのコントロール -->
-  <div class="mb-8 bg-gray-50 p-6 rounded-lg shadow-sm">
-    <div class="flex flex-wrap gap-6 justify-center items-center">
-
-      <!-- スタイルフィルター -->
-      <div class="flex flex-col items-center gap-2">
-        <label for="style-filter" class="text-sm font-medium text-gray-700">
-          <i class="fas fa-palette mr-1"></i>スタイル
-        </label>
-        <select id="style-filter" class="border border-gray-300 rounded-md px-3 py-2 bg-white shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">
-          <option value="">すべて</option>
-          <% Font.select(:style).distinct.each do |font| %>
-            <option value="<%= font.style %>"><%= font.style %></option>
-          <% end %>
-        </select>
-      </div>
-
-      <!-- ジャンルフィルター -->
-      <div class="flex flex-col items-center gap-2">
-        <label for="genre-filter" class="text-sm font-medium text-gray-700">
-          <i class="fas fa-tags mr-1"></i>ジャンル
-        </label>
-        <select id="genre-filter" class="border border-gray-300 rounded-md px-3 py-2 bg-white shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">
-          <option value="">すべて</option>
-          <% Font.select(:genre).distinct.each do |font| %>
-            <option value="<%= font.genre %>"><%= font.genre %></option>
-          <% end %>
-        </select>
-      </div>
-
-      <!-- フォントサイズ調整 -->
-      <div class="flex flex-col items-center gap-2">
-        <label for="font-size" class="text-sm font-medium text-gray-700">
-          <i class="fas fa-text-height mr-1"></i>文字サイズ
-        </label>
-        <div class="flex items-center gap-3">
-          <span class="text-xs text-gray-500">小</span>
-          <input type="range" id="font-size" min="10" max="72" value="24" 
-                 class="w-24 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider" />
-          <span class="text-xs text-gray-500">大</span>
-          <span id="font-size-display" class="text-sm font-mono bg-blue-100 text-blue-800 px-2 py-1 rounded min-w-[50px] text-center">24px</span>
+    <main class="flex-1">
+      <div class="container mx-auto px-5 py-8">
+      <!-- サービス説明セクション -->
+      <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold mb-4">ふぉんとみっけ</h1>
+        <p class="text-lg text-gray-600 mb-6 max-w-2xl mx-auto">
+          お好きな文章でさまざまなフォントをプレビューできます。<br>
+          文字サイズやスタイルを調整して、あなたの理想のフォントを見つけましょう。
+        </p>
+        <!-- 使い方の簡単な説明 -->
+        <div class="text-sm text-gray-500 mb-8">
+          <p>下のテキストボックスに文章を入力すると、リアルタイムでプレビューが更新されます。</p>
         </div>
       </div>
 
-      <!-- リセットボタン -->
-      <div class="flex flex-col items-center gap-2">
-        <label class="text-sm font-medium text-gray-700">
-          <i class="fas fa-undo mr-1"></i>リセット
-        </label>
-        <button id="reset-filters" class="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-md transition-colors">
-          クリア
-        </button>
+      <!-- 入力フィールド -->
+      <div class="mb-8">
+        <input id="preview-input" type="text" value="" placeholder="プレビューしたい文章を入力してください"
+          class="border rounded-lg p-3 w-full max-w-xl mx-auto block focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all" />
       </div>
 
-    </div>
+      <!-- フィルターと文字サイズのコントロール -->
+      <div class="mb-8 bg-gray-50 p-6 rounded-lg shadow-sm">
+        <div class="filter-area flex flex-wrap gap-6 justify-center items-center">
 
-    <!-- フィルター結果表示 -->
-    <div class="mt-4 text-center">
-      <span id="filter-result" class="text-sm text-gray-600"></span>
-    </div>
-  </div>
+          <!-- スタイルフィルター -->
+          <div class="flex flex-col items-center gap-2">
+            <label for="style-filter" class="text-sm font-medium text-gray-700">
+              <i class="fas fa-palette mr-1"></i>スタイル
+            </label>
+            <select id="style-filter" class="border border-gray-300 rounded-md px-3 py-2 bg-white shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">
+              <option value="">すべて</option>
+              <% Font.select(:style).distinct.each do |font| %>
+                <option value="<%= font.style %>"><%= font.style %></option>
+              <% end %>
+            </select>
+          </div>
 
-  <!-- フォントプレビュー -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-6" id="font-preview-area">
-    <% @fonts.each do |font| %>
-      <link href="<%= font.font_url %>" rel="stylesheet">
-      <div class="font-card border rounded-lg p-4 shadow hover:shadow-lg transition-all duration-200 bg-white" 
-           data-style="<%= font.style %>"
-           data-genre="<%= font.genre %>">
-        <h3 class="text-lg font-semibold mb-3">
-          <%= link_to font.name, font_path(font), class: "text-blue-600 hover:text-blue-800 hover:underline font-link transition-colors" %>
-        </h3>
-        <div class="bg-gray-50 rounded p-3 mb-2">
-          <p class="preview-text text-center" style="font-family: '<%= font.name %>', sans-serif; font-size: 24px; line-height: 1.4;">
-            こんにちは
-          </p>
+          <!-- ジャンルフィルター -->
+          <div class="flex flex-col items-center gap-2">
+            <label for="genre-filter" class="text-sm font-medium text-gray-700">
+              <i class="fas fa-tags mr-1"></i>ジャンル
+            </label>
+            <select id="genre-filter" class="border border-gray-300 rounded-md px-3 py-2 bg-white shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">
+              <option value="">すべて</option>
+              <% Font.select(:genre).distinct.each do |font| %>
+                <option value="<%= font.genre %>"><%= font.genre %></option>
+              <% end %>
+            </select>
+          </div>
+
+          <!-- フォントサイズ調整 -->
+          <div class="flex flex-col items-center gap-2">
+            <label for="font-size" class="text-sm font-medium text-gray-700">
+              <i class="fas fa-text-height mr-1"></i>文字サイズ
+            </label>
+            <div class="flex items-center gap-3">
+              <span class="text-xs text-gray-500">小</span>
+              <input type="range" id="font-size" min="10" max="72" value="24"
+                    class="w-24 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider" />
+              <span class="text-xs text-gray-500">大</span>
+              <span id="font-size-display" class="text-sm font-mono bg-blue-100 text-blue-800 px-2 py-1 rounded min-w-[50px] text-center">24px</span>
+            </div>
+          </div>
+
+          <!-- リセットボタン -->
+          <div class="flex flex-col items-center gap-2">
+            <label class="text-sm font-medium text-gray-700">
+              <i class="fas fa-undo mr-1"></i>リセット
+            </label>
+            <button id="reset-filters" class="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-md transition-colors">
+              クリア
+            </button>
+          </div>
+
         </div>
-        <div class="flex justify-between text-xs text-gray-500">
-          <span class="bg-gray-100 px-2 py-1 rounded"><%= font.style %></span>
-          <span class="bg-gray-100 px-2 py-1 rounded"><%= font.genre %></span>
+
+        <!-- フィルター結果表示 -->
+        <div class="mt-4 text-center">
+          <span id="filter-result" class="text-sm text-gray-600"></span>
         </div>
       </div>
-    <% end %>
-  </div>
 
-  <!-- フォントが見つからない場合のメッセージ -->
-  <div id="no-fonts-message" class="text-center py-12 hidden">
-    <div class="text-gray-400 mb-4">
-      <i class="fas fa-search text-4xl"></i>
-    </div>
-    <p class="text-xl text-gray-600 mb-2">該当するフォントが見つかりません</p>
-    <p class="text-gray-500">フィルター条件を変更してお試しください</p>
-  </div>
-</main>
+      <!-- フォントプレビュー -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-6" id="font-preview-area">
+        <% @fonts.each do |font| %>
+          <link href="<%= font.font_url %>" rel="stylesheet">
+          <div class="font-card border rounded-lg p-4 shadow hover:shadow-lg transition-all duration-200 bg-white" 
+              data-style="<%= font.style %>"
+              data-genre="<%= font.genre %>">
+            <h3 class="text-lg font-semibold mb-3">
+              <%= link_to font.name, font_path(font), class: "text-blue-600 hover:text-blue-800 hover:underline font-link transition-colors" %>
+            </h3>
+            <div class="bg-gray-50 rounded p-3 mb-2">
+              <p class="preview-text text-center" style="font-family: '<%= font.name %>', sans-serif; font-size: 24px; line-height: 1.4;">
+                こんにちは
+              </p>
+            </div>
+            <div class="flex justify-between text-xs text-gray-500">
+              <span class="bg-gray-100 px-2 py-1 rounded"><%= font.style %></span>
+              <span class="bg-gray-100 px-2 py-1 rounded"><%= font.genre %></span>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- フォントが見つからない場合のメッセージ -->
+      <div id="no-fonts-message" class="text-center py-12 hidden">
+        <div class="text-gray-400 mb-4">
+          <i class="fas fa-search text-4xl"></i>
+        </div>
+        <p class="text-xl text-gray-600 mb-2">該当するフォントが見つかりません</p>
+        <p class="text-gray-500">フィルター条件を変更してお試しください</p>
+      </div>
+      </div>
+    </main>
 
 <script>
 // グローバルスコープで関数を定義
@@ -269,7 +274,7 @@ document.addEventListener('DOMContentLoaded', function() {
         fontSizeSlider.value = '24';
         fontSizeDisplay.textContent = '24px';
         previewTexts.forEach(previewText => {
-          previewText.style.fontSize = '24px';
+        previewText.style.fontSize = '24px';
         });
       }
 
@@ -277,7 +282,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (previewInput) {
         previewInput.value = '';
         previewTexts.forEach(previewText => {
-          previewText.textContent = 'こんにちは';
+        previewText.textContent = 'こんにちは';
         });
       }
 
@@ -297,10 +302,9 @@ document.addEventListener('DOMContentLoaded', function() {
     updateFontLinks();
   }
 });
-</script><script>
-// グローバルスコープで関数を定義
-let updateFontLinks;
+</script>
 
+<script>
 document.addEventListener('DOMContentLoaded', function() {
   const previewInput = document.getElementById('preview-input');
   const fontLinks = document.querySelectorAll('.font-link');
@@ -484,6 +488,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <style>
+
 /* スライダーのスタイリング */
 .slider::-webkit-slider-thumb {
   appearance: none;
@@ -546,7 +551,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /* フィルターエリアのレスポンシブ対応 */
 @media (max-width: 768px) {
-  .flex.flex-wrap.gap-6 {
+  .filter-area.flex.flex-wrap.gap-6 {
     flex-direction: column;
     gap: 1rem;
   }
