@@ -7,7 +7,7 @@ default: &default
 
 development:
   <<: *default
-  database: myapp_development
+  database: fontmikke_development
 
 test:
   <<: *default
