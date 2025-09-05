@@ -7,19 +7,71 @@
       </div>
 
       <!-- ナビゲーションメニュー -->
-      <div class="hidden md:flex space-x-6">
-        <%= link_to "ホーム", root_path, class: "text-gray-600 hover:text-gray-800" %>
-        <%= link_to "機能1", "#", class: "text-gray-600 hover:text-gray-800" %>
-        <%= link_to "機能2", "#", class: "text-gray-600 hover:text-gray-800" %>
+      <div class="hidden md:flex items-center space-x-6">
+
+        <!-- ログイン状態によって表示を切り替え -->
+        <% if logged_in? %>
+          <!-- ログイン済みの場合のみ表示 -->
+          <%= link_to "My Font", "#", class: "text-gray-600 hover:text-gray-800" %>
+        <% end %>
+
+        <!-- ログイン状態による表示切り替え -->
+        <div class="flex items-center space-x-4 ml-6 pl-6 ">
+          <% if logged_in? %>
+            <!-- ログイン済みの場合 -->
+            <span class="text-sm text-gray-600">
+              <%= current_user.name %>さん
+            </span>
+            <%= link_to "ログアウト", logout_path,
+              data: { turbo_method: :delete, turbo_confirm: "ログアウトしますか？" },
+              class: "bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-md text-sm transition-colors" %>
+          <% else %>
+            <!-- 未ログインの場合 -->
+            <%= link_to "ログイン", login_path,
+                        class: "text-gray-600 hover:text-gray-800 px-3 py-2 text-sm" %>
+            <%= link_to "ユーザー登録", new_user_path,
+                        class: "bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md text-sm transition-colors" %>
+          <% end %>
+        </div>
       </div>
 
-      <!-- モバイルメニューボタン -->
+      <!-- モバイル用：ハンバーガーメニューボタン -->
       <div class="md:hidden">
-        <button class="text-gray-600 hover:text-gray-800">
+        <button id="mobile-menu-button" class="text-gray-600 hover:text-gray-800">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
           </svg>
         </button>
+      </div>
+    </div>
+
+    <!-- モバイルメニュー（展開時） -->
+    <div id="mobile-menu" class="hidden md:hidden mt-4 pt-4 border-t border-gray-200">
+      <div class="flex flex-col space-y-3">
+
+        <!-- ログイン済みの場合のみ表示（モバイル） -->
+        <% if logged_in? %>
+          <%= link_to "My Font", "#", class: "text-gray-600 hover:text-gray-800 py-2" %>
+        <% end %>
+
+        <!-- モバイル用ログイン状態表示 -->
+        <div class="pt-3 border-t border-gray-200">
+          <% if logged_in? %>
+            <!-- ログイン済み（モバイル） -->
+            <div class="text-sm text-gray-600 py-2">
+              <%= current_user.name %>さん
+            </div>
+            <%= link_to "ログアウト", logout_path,
+                    data: { turbo_method: :delete, turbo_confirm: "ログアウトしますか？" },
+                    class: "block w-full text-left bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-3 rounded-md text-sm" %>
+          <% else %>
+            <!-- 未ログイン（モバイル） -->
+            <%= link_to "ログイン", login_path,
+                        class: "block text-gray-600 hover:text-gray-800 py-2" %>
+            <%= link_to "ユーザー登録", new_user_path,
+                        class: "block bg-blue-500 hover:bg-blue-600 text-white px-4 py-3 rounded-md text-sm text-center mt-2" %>
+          <% end %>
+        </div>
       </div>
     </div>
   </nav>
