@@ -1,16 +1,13 @@
 Rails.application.routes.draw do
-  get 'users/new'
-  get 'users/create'
-  get 'static_pages/terms'
-  get 'static_pages/privacy'
-  root "home#index"
-  get 'terms_of_service', to: 'static_pages#terms_of_service'
-
-  resources :fonts, only: %i[index show]
+  # ルートページ
+  root "fonts#index"
 
   # 静的ページ
   get 'terms', to: 'static_pages#terms'
   get 'privacy', to: 'static_pages#privacy'
+
+  # フォント関連
+  resources :fonts, only: %i[index show]
 
   # ユーザー登録関連
   resources :users, only: %i[new create]
@@ -19,4 +16,13 @@ Rails.application.routes.draw do
   get 'login', to: 'user_sessions#new'
   post 'login', to: 'user_sessions#create'
   delete 'logout', to: 'user_sessions#destroy'
+
+  # パスワードリセット関連
+  resources :password_resets, only: [:new, :create, :edit, :update]
+
+  # 開発環境用
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  end
+
 end
