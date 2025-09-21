@@ -30,4 +30,4 @@
 
 /app/assets/builds/*
 !/app/assets/builds/.keepapp/assets/builds/
-.env
+/.env
