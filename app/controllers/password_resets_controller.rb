@@ -6,6 +6,11 @@ class PasswordResetsController < ApplicationController
   end
 
   def create
+    Rails.logger.info "=== PASSWORD RESET DEBUG ==="
+    Rails.logger.info "GMAIL_USERNAME: #{ENV['GMAIL_USERNAME']}"
+    Rails.logger.info "GMAIL_PASSWORD length: #{ENV['GMAIL_PASSWORD']&.length}"
+    Rails.logger.info "GMAIL_PASSWORD first 4 chars: #{ENV['GMAIL_PASSWORD']&.first(4)}"
+    Rails.logger.info "================================"
     # メールアドレスからユーザーを検索
     @user = User.find_by(email: params[:email])
 
