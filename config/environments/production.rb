@@ -33,11 +33,12 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     address: 'smtp.gmail.com',
     port: 587,
-    domain: 'gmail.com',
+    domain: 'fontmikke.onrender.com',
     user_name: ENV['GMAIL_USERNAME'],
     password: ENV['GMAIL_PASSWORD'],
     authentication: 'plain',
     enable_starttls_auto: true
+    openssl_verify_mode: 'none'
   }
 
 config.assets.paths << Rails.root.join("app/assets/builds")
