@@ -38,7 +38,7 @@ Rails.application.configure do
     password: ENV['GMAIL_PASSWORD'],
     authentication: 'plain',
     enable_starttls_auto: true,
-    openssl_verify_mode: 'none'
+    openssl_verify_mode: OpenSSL::SSL::VERIFY_NONE
   }
 
 config.assets.paths << Rails.root.join("app/assets/builds")
