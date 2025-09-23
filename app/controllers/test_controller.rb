@@ -1,8 +1,11 @@
 class TestController < ApplicationController
-# 本番環境でのみアクセス可能にする
-before_action :check_test_mode
 
-def send_test_email
+    skip_before_action :require_login
+
+    # 本番環境でのみアクセス可能にする
+    before_action :check_test_mode
+
+    def send_test_email
     user = User.find_by(email: params[:email]) || User.first
 
     if user
