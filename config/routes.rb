@@ -25,4 +25,6 @@ Rails.application.routes.draw do
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end
 
+  get '/test/send_email', to: 'test#send_test_email' if Rails.env.production?
+
 end
