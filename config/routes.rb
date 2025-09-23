@@ -24,7 +24,4 @@ Rails.application.routes.draw do
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end
-
-  get '/test/send_email', to: 'test#send_test_email' if Rails.env.production?
-
 end
