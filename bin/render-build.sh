@@ -1,7 +1,7 @@
 set -o errexit
 
 echo "=== ビルド開始 ==="
-gem install bundler -v 2.4.22
+gem install bundler -v 2.6.9
 echo "=== Bundler インストール完了 ==="
 
 bundle install
