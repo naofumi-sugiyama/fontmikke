@@ -1,4 +1,9 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('turbo:load', function() {
+  const existingListeners = document.querySelectorAll('[data-listener-attached]');
+  existingListeners.forEach(element => {
+    element.removeAttribute('data-listener-attached');
+  });
+
   // モバイルメニュー制御
   const mobileMenuButton = document.getElementById('mobile-menu-button');
   const mobileMenu = document.getElementById('mobile-menu');
