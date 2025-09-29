@@ -11,7 +11,7 @@
         <!-- ログイン状態による表示切り替え -->
         <% if logged_in? %>
           <!-- ログイン済み：ユーザーメニュー -->
-          <div class="relative">
+          <div class="relative user-menu-container">
             <!-- ユーザーアイコン（クリックでプルダウン表示） -->
             <button id="user-menu-button" class="flex items-center space-x-2 text-gray-600 hover:text-gray-800 focus:outline-none">
               <!-- アバター画像 or 初期文字 -->
@@ -25,7 +25,7 @@
               </svg>
             </button>
 
-        <div id="user-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 z-10">
+        <div id="user-dropdown" class="user-dropdown dropdown-right hidden">
   <div class="py-1">
     <!-- メニュー項目 -->
     <%= link_to "お気に入り一覧", "#", 
