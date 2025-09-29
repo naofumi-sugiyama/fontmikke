@@ -28,7 +28,7 @@
         <div id="user-dropdown" class="user-dropdown dropdown-right hidden">
   <div class="py-1">
     <!-- メニュー項目 -->
-    <%= link_to "お気に入り一覧", "#", 
+    <%= link_to "お気に入り一覧", "#",
         class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" %>
     
     <div class="border-t border-gray-100"></div>
@@ -46,15 +46,15 @@
       <!-- サブメニュー（ホバーで表示） -->
       <div class="absolute left-full top-0 w-48 bg-white rounded-md shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-20">
         <div class="py-1">
-          <%= link_to "メールアドレス変更", "#", 
+          <%= link_to "メールアドレス変更", edit_email_change_path(current_user),
               class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" %>
-          <%= link_to "パスワード変更", "#", 
+          <%= link_to "パスワード変更", new_password_reset_path,
               class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" %>
         </div>
       </div>
     </div>
     
-    <%= link_to "お問い合わせ", "#", 
+    <%= link_to "お問い合わせ", "https://docs.google.com/forms/d/e/1FAIpQLSeIx4YbXKiEfd05KqgpHUFzfDeawMO98GrPVKVPW9qSF9-_0Q/viewform?usp=header",
         class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" %>
     
     <div class="border-t border-gray-100"></div>
