@@ -3,5 +3,6 @@ import "@hotwired/turbo-rails"
 import "controllers"
 import "font_preview"
 import "font_detail"
+import "header"
 
 console.log("Application JavaScript loaded with importmap!");
