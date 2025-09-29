@@ -8,31 +8,77 @@
 
       <!-- ナビゲーションメニュー -->
       <div class="hidden md:flex items-center space-x-6">
-
-        <!-- ログイン状態によって表示を切り替え -->
-        <% if logged_in? %>
-          <!-- ログイン済みの場合のみ表示 -->
-          <%= link_to "My Font", "#", class: "text-gray-600 hover:text-gray-800" %>
-        <% end %>
-
         <!-- ログイン状態による表示切り替え -->
-        <div class="flex items-center space-x-4 ml-6 pl-6 ">
-          <% if logged_in? %>
-            <!-- ログイン済みの場合 -->
-            <span class="text-sm text-gray-600">
-              <%= current_user.name %>さん
-            </span>
-            <%= link_to "ログアウト", logout_path,
-              data: { turbo_method: :delete, turbo_confirm: "ログアウトしますか？" },
-              class: "bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-md text-sm transition-colors" %>
-          <% else %>
-            <!-- 未ログインの場合 -->
+        <% if logged_in? %>
+          <!-- ログイン済み：ユーザーメニュー -->
+          <div class="relative">
+            <!-- ユーザーアイコン（クリックでプルダウン表示） -->
+            <button id="user-menu-button" class="flex items-center space-x-2 text-gray-600 hover:text-gray-800 focus:outline-none">
+              <!-- アバター画像 or 初期文字 -->
+              <div class="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-medium">
+                <%= current_user.name.first %>
+              </div>
+              <span class="text-sm"><%= current_user.name %>さん</span>
+              <!-- 下向き矢印 -->
+              <svg class="w-4 h-4 transition-transform duration-200" id="dropdown-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+
+        <div id="user-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 z-10">
+  <div class="py-1">
+    <!-- ユーザー情報表示 -->
+    <div class="px-4 py-2 text-sm text-gray-500 border-b border-gray-100">
+      <%= current_user.email %>
+    </div>
+    
+    <!-- メニュー項目 -->
+    <%= link_to "お気に入り一覧", "#", 
+        class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" %>
+    
+    <div class="border-t border-gray-100"></div>
+    
+    <!-- アカウント設定（ネストメニュー） -->
+    <div class="relative group">
+      <div class="flex items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">
+        <span>アカウント設定</span>
+        <!-- 右向き矢印 -->
+        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </div>
+      
+      <!-- サブメニュー（ホバーで表示） -->
+      <div class="absolute left-full top-0 w-48 bg-white rounded-md shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-20">
+        <div class="py-1">
+          <%= link_to "メールアドレス変更", "#", 
+              class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" %>
+          <%= link_to "パスワード変更", "#", 
+              class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" %>
+        </div>
+      </div>
+    </div>
+    
+    <%= link_to "お問い合わせ", "#", 
+        class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" %>
+    
+    <div class="border-t border-gray-100"></div>
+    
+    <%= link_to "ログアウト", logout_path,
+        data: { turbo_method: :delete, turbo_confirm: "ログアウトしますか？" },
+        class: "block px-4 py-2 text-sm text-red-600 hover:bg-red-50" %>
+  </div>
+</div>
+          </div>
+        <% else %>
+          <!-- 未ログイン：シンプルなボタン表示 -->
+          <div class="flex items-center space-x-4">
             <%= link_to "ログイン", login_path,
                         class: "text-gray-600 hover:text-gray-800 px-3 py-2 text-sm" %>
             <%= link_to "ユーザー登録", new_user_path,
                         class: "bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md text-sm transition-colors" %>
-          <% end %>
-        </div>
+          </div>
+        <% end %>
       </div>
 
       <!-- モバイル用：ハンバーガーメニューボタン -->
@@ -45,34 +91,49 @@
       </div>
     </div>
 
-    <!-- モバイルメニュー（展開時） -->
-    <div id="mobile-menu" class="hidden md:hidden mt-4 pt-4 border-t border-gray-200">
-      <div class="flex flex-col space-y-3">
+      <!-- モバイルメニュー（展開時） -->
+<div id="mobile-menu" class="hidden md:hidden mt-4 pt-4 border-t border-gray-200">
+  <div class="flex flex-col space-y-3">
+    <% if logged_in? %>
+      <!-- ログイン済み（モバイル） -->
+      <div class="text-sm text-gray-600 py-2 border-b border-gray-200">
+        <%= current_user.name %>さん（<%= current_user.email %>）
+      </div>
 
-        <!-- ログイン済みの場合のみ表示（モバイル） -->
-        <% if logged_in? %>
-          <%= link_to "My Font", "#", class: "text-gray-600 hover:text-gray-800 py-2" %>
-        <% end %>
+      <%= link_to "お気に入り一覧", "#", class: "text-gray-600 hover:text-gray-800 py-2" %>
 
-        <!-- モバイル用ログイン状態表示 -->
-        <div class="pt-3 border-t border-gray-200">
-          <% if logged_in? %>
-            <!-- ログイン済み（モバイル） -->
-            <div class="text-sm text-gray-600 py-2">
-              <%= current_user.name %>さん
-            </div>
-            <%= link_to "ログアウト", logout_path,
-                    data: { turbo_method: :delete, turbo_confirm: "ログアウトしますか？" },
-                    class: "block w-full text-left bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-3 rounded-md text-sm" %>
-          <% else %>
-            <!-- 未ログイン（モバイル） -->
-            <%= link_to "ログイン", login_path,
-                        class: "block text-gray-600 hover:text-gray-800 py-2" %>
-            <%= link_to "ユーザー登録", new_user_path,
-                        class: "block bg-blue-500 hover:bg-blue-600 text-white px-4 py-3 rounded-md text-sm text-center mt-2" %>
-          <% end %>
+      <!-- アカウント設定（モバイル用展開メニュー） -->
+      <div class="border-t border-gray-100 pt-2">
+        <button id="mobile-account-toggle" class="flex items-center justify-between w-full text-left text-gray-600 hover:text-gray-800 py-2 focus:outline-none">
+          <span>アカウント設定</span>
+          <!-- 下向き矢印（回転アニメーション） -->
+          <svg id="mobile-account-arrow" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+
+        <!-- サブメニュー（展開・折りたたみ） -->
+        <div id="mobile-account-submenu" class="hidden pl-4 pt-2 space-y-2">
+          <%= link_to "メールアドレス変更", "#",
+              class: "block text-gray-500 hover:text-gray-700 py-1 text-sm" %>
+          <%= link_to "パスワード変更", "#",
+              class: "block text-gray-500 hover:text-gray-700 py-1 text-sm" %>
         </div>
       </div>
-    </div>
+
+      <%= link_to "お問い合わせ", "#", class: "text-gray-600 hover:text-gray-800 py-2" %>
+
+      <%= link_to "ログアウト", logout_path,
+              data: { turbo_method: :delete, turbo_confirm: "ログアウトしますか？" },
+              class: "block w-full text-left bg-red-50 hover:bg-red-100 text-red-600 px-4 py-3 rounded-md text-sm mt-2" %>
+    <% else %>
+      <!-- 未ログイン（モバイル） -->
+      <%= link_to "ログイン", login_path,
+                  class: "block text-gray-600 hover:text-gray-800 py-2" %>
+      <%= link_to "ユーザー登録", new_user_path,
+                  class: "block bg-blue-500 hover:bg-blue-600 text-white px-4 py-3 rounded-md text-sm text-center mt-2" %>
+    <% end %>
+  </div>
+</div>
   </nav>
 </header>
