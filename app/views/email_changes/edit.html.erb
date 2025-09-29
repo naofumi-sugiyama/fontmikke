@@ -14,7 +14,7 @@
             メール内のリンクをクリックして変更を完了してください。
           </div>
 
-          <%= form_with url: email_changes_path, method: :patch, local: true, class: "needs-validation", novalidate: true do |f| %>
+          <%= form_with url: email_change_path(current_user), method: :patch, local: true, class: "needs-validation", novalidate: true do |f| %>
             <div class="mb-3">
               <label for="current_email" class="form-label">現在のメールアドレス</label>
               <input type="email" class="form-control" id="current_email" value="<%= current_user.email %>" disabled>
