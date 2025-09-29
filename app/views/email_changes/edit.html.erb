@@ -14,7 +14,7 @@
             メール内のリンクをクリックして変更を完了してください。
           </div>
 
-          <%= form_with url: email_change_path(current_user), method: :patch, local: true, class: "needs-validation", novalidate: true do |f| %>
+          <%= form_with url: email_change_path(current_user), method: :patch, local: true do |f| %>
             <div class="mb-3">
               <label for="current_email" class="form-label">現在のメールアドレス</label>
               <input type="email" class="form-control" id="current_email" value="<%= current_user.email %>" disabled>
@@ -23,17 +23,11 @@
             <div class="mb-3">
               <%= f.label :email, '新しいメールアドレス', class: 'form-label' %>
               <%= f.email_field :email, class: 'form-control', required: true, placeholder: '新しいメールアドレスを入力してください' %>
-              <div class="invalid-feedback">
-                有効なメールアドレスを入力してください。
-              </div>
             </div>
 
             <div class="mb-3">
               <%= f.label :email_confirmation, 'メールアドレス確認', class: 'form-label' %>
               <%= f.email_field :email_confirmation, class: 'form-control', required: true, placeholder: '確認のため再度入力してください' %>
-              <div class="invalid-feedback">
-                メールアドレスが一致しません。
-              </div>
             </div>
 
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -46,33 +40,3 @@
     </div>
   </div>
 </div>
-
-<script>
-// フォームバリデーション
-(function() {
-  'use strict';
-  window.addEventListener('load', function() {
-    var forms = document.getElementsByClassName('needs-validation');
-    var validation = Array.prototype.filter.call(forms, function(form) {
-      form.addEventListener('submit', function(event) {
-        var email = document.querySelector('input[name="email"]').value;
-        var emailConfirmation = document.querySelector('input[name="email_confirmation"]').value;
-        
-        if (email !== emailConfirmation) {
-          event.preventDefault();
-          event.stopPropagation();
-          document.querySelector('input[name="email_confirmation"]').setCustomValidity('メールアドレスが一致しません');
-        } else {
-          document.querySelector('input[name="email_confirmation"]').setCustomValidity('');
-        }
-        
-        if (form.checkValidity() === false) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        form.classList.add('was-validated');
-      }, false);
-    });
-  }, false);
-})();
-</script>
