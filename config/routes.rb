@@ -20,6 +20,13 @@ Rails.application.routes.draw do
   # パスワードリセット関連
   resources :password_resets, only: [:new, :create, :edit, :update]
 
+  # メールアドレス変更関連
+  resources :email_changes, only: [:edit, :update] do
+    member do
+      get :confirm
+    end
+  end
+
   # 開発環境用
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
