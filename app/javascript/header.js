@@ -1,6 +1,40 @@
-document.addEventListener('DOMContentLoaded', function() {
+function adjustDropdownPosition() {
+  const dropdown = document.getElementById('user-dropdown');
+  const button = document.getElementById('user-menu-button');
+  
+  if (!dropdown || !button) return;
+  
+  // まず初期状態にリセット
+  dropdown.style.left = '0';
+  dropdown.style.right = 'auto';
+  dropdown.classList.remove('dropdown-right');
+  
+  // 位置を再計算
+  setTimeout(() => {
+    const dropdownRect = dropdown.getBoundingClientRect();
+    const windowWidth = window.innerWidth;
+    const scrollbarWidth = 20;
+    
+    console.log('ドロップダウンの右端:', dropdownRect.right);
+    console.log('ウィンドウ幅:', windowWidth);
+    
+    if (dropdownRect.right > windowWidth - scrollbarWidth) {
+      dropdown.style.left = 'auto';
+      dropdown.style.right = '0';
+      dropdown.classList.add('dropdown-right');
+      console.log('ドロップダウンを右寄せに調整しました');
+    } else {
+      console.log('ドロップダウンは通常位置で表示中');
+    }
+  }, 50);
+}
 
+// ★統合されたDOMContentLoadedイベント
+document.addEventListener('DOMContentLoaded', function() {
+  
+  // ===========================================
   // モバイルメニュー制御
+  // ===========================================
   const mobileMenuButton = document.getElementById('mobile-menu-button');
   const mobileMenu = document.getElementById('mobile-menu');
 
@@ -17,35 +51,101 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  // ===========================================
   // デスクトップ用：ユーザーメニューのプルダウン制御
+  // ===========================================
   const userMenuButton = document.getElementById('user-menu-button');
   const userDropdown = document.getElementById('user-dropdown');
   const dropdownArrow = document.getElementById('dropdown-arrow');
 
   if (userMenuButton && userDropdown) {
+    
+    // ★クリック制御（デスクトップ・モバイル共通）
     userMenuButton.addEventListener('click', function(e) {
-      e.stopPropagation(); // イベントバブリングを防ぐ
+      e.stopPropagation();
       const isHidden = userDropdown.classList.contains('hidden');
       
       if (isHidden) {
+        // メニューを表示
         userDropdown.classList.remove('hidden');
-        dropdownArrow.style.transform = 'rotate(180deg)';
+        userDropdown.style.display = 'block';
+        if (dropdownArrow) dropdownArrow.style.transform = 'rotate(180deg)';
+        
+        // 位置調整を実行
+        adjustDropdownPosition();
       } else {
+        // メニューを非表示
         userDropdown.classList.add('hidden');
-        dropdownArrow.style.transform = 'rotate(0deg)';
+        userDropdown.style.display = 'none';
+        if (dropdownArrow) dropdownArrow.style.transform = 'rotate(0deg)';
       }
     });
+
+    // ★ホバー制御（デスクトップのみ - 画面幅768px以上）
+    function handleHover() {
+      if (window.innerWidth >= 768) {
+        
+        userMenuButton.addEventListener('mouseenter', function() {
+          if (userDropdown.classList.contains('hidden')) {
+            userDropdown.classList.remove('hidden');
+            userDropdown.style.display = 'block';
+            if (dropdownArrow) dropdownArrow.style.transform = 'rotate(180deg)';
+            
+            setTimeout(() => {
+              adjustDropdownPosition();
+            }, 10);
+          }
+        });
+
+        userMenuButton.addEventListener('mouseleave', function() {
+          setTimeout(() => {
+            if (!userDropdown.matches(':hover') && !userMenuButton.matches(':hover')) {
+              userDropdown.classList.add('hidden');
+              userDropdown.style.display = 'none';
+              if (dropdownArrow) dropdownArrow.style.transform = 'rotate(0deg)';
+            }
+          }, 100);
+        });
+
+        userDropdown.addEventListener('mouseenter', function() {
+          userDropdown.classList.remove('hidden');
+          userDropdown.style.display = 'block';
+        });
+        
+        userDropdown.addEventListener('mouseleave', function() {
+          userDropdown.classList.add('hidden');
+          userDropdown.style.display = 'none';
+          if (dropdownArrow) dropdownArrow.style.transform = 'rotate(0deg)';
+        });
+      }
+    }
+
+    // 初回実行
+    handleHover();
 
     // 外部クリックでユーザーメニューを閉じる
     document.addEventListener('click', function(event) {
       if (!userMenuButton.contains(event.target) && !userDropdown.contains(event.target)) {
         userDropdown.classList.add('hidden');
-        dropdownArrow.style.transform = 'rotate(0deg)';
+        userDropdown.style.display = 'none';
+        if (dropdownArrow) dropdownArrow.style.transform = 'rotate(0deg)';
       }
+    });
+
+    // ウィンドウリサイズ時の処理
+    window.addEventListener('resize', function() {
+      if (!userDropdown.classList.contains('hidden')) {
+        adjustDropdownPosition();
+      }
+      
+      // 画面サイズが変わったらホバーイベントを再設定
+      handleHover();
     });
   }
 
+  // ===========================================
   // モバイル用：アカウント設定サブメニューの制御
+  // ===========================================
   const mobileAccountToggle = document.getElementById('mobile-account-toggle');
   const mobileAccountSubmenu = document.getElementById('mobile-account-submenu');
   const mobileAccountArrow = document.getElementById('mobile-account-arrow');
@@ -53,87 +153,16 @@ document.addEventListener('DOMContentLoaded', function() {
   if (mobileAccountToggle && mobileAccountSubmenu && mobileAccountArrow) {
     mobileAccountToggle.addEventListener('click', function(e) {
       e.preventDefault();
-      e.stopPropagation(); // イベントバブリングを防ぐ
+      e.stopPropagation();
       
       const isHidden = mobileAccountSubmenu.classList.contains('hidden');
       
       if (isHidden) {
-        // 展開
         mobileAccountSubmenu.classList.remove('hidden');
         mobileAccountArrow.style.transform = 'rotate(180deg)';
       } else {
-        // 折りたたみ
         mobileAccountSubmenu.classList.add('hidden');
         mobileAccountArrow.style.transform = 'rotate(0deg)';
-      }
-    });
-  }
-});
-
-function adjustDropdownPosition() {
-  const dropdown = document.getElementById('user-dropdown');
-  const button = document.getElementById('user-menu-button');
-  
-  if (!dropdown || !button) return;
-  
-  // ドロップダウンの位置とサイズを取得
-  const dropdownRect = dropdown.getBoundingClientRect();
-  const windowWidth = window.innerWidth;
-  
-  // 画面右端からはみ出る場合（10pxのマージンを考慮）
-  if (dropdownRect.right > windowWidth - 10) {
-    // 右寄せに変更
-    dropdown.style.left = 'auto';
-    dropdown.style.right = '0';
-    dropdown.classList.add('dropdown-right');
-    console.log('ドロップダウンを右寄せに調整しました'); // デバッグ用
-  } else {
-    // 通常の左寄せ
-    dropdown.style.left = '0';
-    dropdown.style.right = 'auto';
-    dropdown.classList.remove('dropdown-right');
-    console.log('ドロップダウンを左寄せで表示しています'); // デバッグ用
-  }
-}
-
-// DOMContentLoadedイベントで初期化
-document.addEventListener('DOMContentLoaded', function() {
-  const userMenuButton = document.getElementById('user-menu-button');
-  const userDropdown = document.getElementById('user-dropdown');
-  
-  if (userMenuButton && userDropdown) {
-    // ホバー時に位置調整を実行
-    userMenuButton.addEventListener('mouseenter', function() {
-      userDropdown.style.display = 'block';
-      // 少し遅延させて位置調整（描画完了後に実行）
-      setTimeout(() => {
-        adjustDropdownPosition();
-      }, 10);
-    });
-    
-    userMenuButton.addEventListener('mouseleave', function(e) {
-      // マウスがドロップダウンメニューに向かっている場合は非表示にしない
-      setTimeout(() => {
-        if (!userDropdown.matches(':hover') && !userMenuButton.matches(':hover')) {
-          userDropdown.style.display = 'none';
-        }
-      }, 100); // 100ms遅延させてチェック
-    });
-
-    userDropdown.addEventListener('mouseenter', function() {
-      // メニューにホバー中は表示を維持
-      userDropdown.style.display = 'block';
-    });
-    
-    userDropdown.addEventListener('mouseleave', function() {
-      // メニューから離れたら非表示
-      userDropdown.style.display = 'none';
-    });
-    
-    // ウィンドウリサイズ時も調整
-    window.addEventListener('resize', function() {
-      if (userDropdown.style.display === 'block') {
-        adjustDropdownPosition();
       }
     });
   }
