@@ -69,3 +69,57 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 });
+
+function adjustDropdownPosition() {
+  const dropdown = document.getElementById('user-dropdown');
+  const button = document.getElementById('user-menu-button');
+  
+  if (!dropdown || !button) return;
+  
+  // ドロップダウンの位置とサイズを取得
+  const dropdownRect = dropdown.getBoundingClientRect();
+  const windowWidth = window.innerWidth;
+  
+  // 画面右端からはみ出る場合（10pxのマージンを考慮）
+  if (dropdownRect.right > windowWidth - 10) {
+    // 右寄せに変更
+    dropdown.style.left = 'auto';
+    dropdown.style.right = '0';
+    dropdown.classList.add('dropdown-right');
+    console.log('ドロップダウンを右寄せに調整しました'); // デバッグ用
+  } else {
+    // 通常の左寄せ
+    dropdown.style.left = '0';
+    dropdown.style.right = 'auto';
+    dropdown.classList.remove('dropdown-right');
+    console.log('ドロップダウンを左寄せで表示しています'); // デバッグ用
+  }
+}
+
+// DOMContentLoadedイベントで初期化
+document.addEventListener('DOMContentLoaded', function() {
+  const userMenuButton = document.getElementById('user-menu-button');
+  const userDropdown = document.getElementById('user-dropdown');
+  
+  if (userMenuButton && userDropdown) {
+    // ホバー時に位置調整を実行
+    userMenuButton.addEventListener('mouseenter', function() {
+      userDropdown.style.display = 'block';
+      // 少し遅延させて位置調整（描画完了後に実行）
+      setTimeout(() => {
+        adjustDropdownPosition();
+      }, 10);
+    });
+    
+    userMenuButton.addEventListener('mouseleave', function() {
+      userDropdown.style.display = 'none';
+    });
+    
+    // ウィンドウリサイズ時も調整
+    window.addEventListener('resize', function() {
+      if (userDropdown.style.display === 'block') {
+        adjustDropdownPosition();
+      }
+    });
+  }
+});
