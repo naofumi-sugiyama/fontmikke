@@ -111,7 +111,22 @@ document.addEventListener('DOMContentLoaded', function() {
       }, 10);
     });
     
-    userMenuButton.addEventListener('mouseleave', function() {
+    userMenuButton.addEventListener('mouseleave', function(e) {
+      // マウスがドロップダウンメニューに向かっている場合は非表示にしない
+      setTimeout(() => {
+        if (!userDropdown.matches(':hover') && !userMenuButton.matches(':hover')) {
+          userDropdown.style.display = 'none';
+        }
+      }, 100); // 100ms遅延させてチェック
+    });
+
+    userDropdown.addEventListener('mouseenter', function() {
+      // メニューにホバー中は表示を維持
+      userDropdown.style.display = 'block';
+    });
+    
+    userDropdown.addEventListener('mouseleave', function() {
+      // メニューから離れたら非表示
       userDropdown.style.display = 'none';
     });
     
