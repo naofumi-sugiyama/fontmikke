@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   resources :password_resets, only: [:new, :create, :edit, :update]
 
   # メールアドレス変更関連
-  resources :email_changes, only: [:edit, :update] do
+  resource :email_change, only: [:edit, :update] do
     member do
       get :confirm
     end
