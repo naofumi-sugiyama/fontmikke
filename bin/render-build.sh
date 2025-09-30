@@ -14,9 +14,9 @@ bundle config set --local frozen false
 echo "=== Bundle clean 実行 ==="
 bundle clean --force
 
-# 特定のgemの個別アップデート
-echo "=== cgi gem 個別アップデート ==="
-bundle update cgi erb
+# 完全な依存関係更新
+echo "=== 依存関係の完全更新 ==="
+bundle update
 
 # gem環境のクリーンアップ
 echo "=== Gem clean 実行 ==="
