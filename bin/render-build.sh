@@ -1,14 +1,19 @@
 set -o errexit
 
+echo "=== vendor/bundle削除 ==="
+rm -rf vendor/bundle
+
 echo "=== ビルド開始 ==="
+
+# Gemfile.lockの存在確認
+ls -l Gemfile.lock
 
 # 環境情報の表示
 echo "Ruby version: $(ruby -v)"
 echo "Bundler version: $(bundle -v)"
 
-# frozen mode を一時的に無効化
-echo "=== Frozen mode 無効化 ==="
-bundle config set --local frozen false
+# bundle config
+bundle config set --local path 'vendor/bundle'
 
 # 依存関係インストール
 echo "=== Bundle install 実行 ==="
