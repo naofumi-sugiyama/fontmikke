@@ -325,7 +325,9 @@ DEPENDENCIES
   bcrypt
   bootsnap
   capybara
+  cgi (>= 0.5.0)
   debug
+  erb (>= 4.0.4)
   importmap-rails
   jbuilder
   letter_opener_web

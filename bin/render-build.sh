@@ -1,27 +1,29 @@
 set -o errexit
 
 echo "=== ビルド開始 ==="
-gem install bundler -v 2.6.9
+
+# Bundlerのクリーンアップ
+echo "=== Bundle clean 実行 ==="
+bundle clean --force
+
+# 特定のgemの個別アップデート
+echo "=== cgi gem 個別アップデート ==="
+bundle update cgi erb
+
+# gem環境のクリーンアップ
+echo "=== Gem clean 実行 ==="
+gem cleanup
+
+# 依存関係の再インストール
+echo "=== Bundle install 実行 ==="
+bundle install --verbose
+
 echo "=== Bundler インストール完了 ==="
 
-bundle install
-echo "=== Bundle install 完了 ==="
-
-bin/rails tailwindcss:build
-echo "=== Tailwind CSS ビルド完了 ==="
-
+# アセットプリコンパイル
 bundle exec rake assets:precompile
 echo "=== アセットプリコンパイル完了 ==="
 
-bundle exec rake assets:clean
-echo "=== アセットクリーン完了 ==="
-
-echo "=== マイグレーション開始 ==="
-RAILS_ENV=production bin/rails db:migrate
-echo "=== マイグレーション完了 ==="
-
-echo "=== Seed実行開始 ==="
-RAILS_ENV=production bin/rails db:seed
-echo "=== Seed実行完了 ==="
-
-echo "=== ビルド全体完了 ==="
+# データベースマイグレーション
+bundle exec rake db:migrate
+echo "=== データベースマイグレーション完了 ==="

@@ -3,6 +3,10 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.1.2"
 
+# コンフリクト解消のため明示的なバージョン指定
+gem 'cgi', '>= 0.5.0'
+gem 'erb', '>= 4.0.4'
+
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "7.1.3"
 
